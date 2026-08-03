@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<!-- Personal portfolio for Sarath. Replace bracketed placeholders (email, GitHub, LinkedIn,
+     resume link, project links, last name) with your real details before publishing. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarath — Backend Engineer, Distributed Systems</title>
+<meta name="description" content="Sarath — backend engineer focused on distributed systems: Kafka, Spring Boot, Docker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0A0E1A;
+    --bg-surface:#121A2E;
+    --bg-surface-2:#1A2440;
+    --accent-violet:#7C5CFC;
+    --accent-violet-soft:rgba(124,92,252,0.15);
+    --accent-coral:#FF7A50;
+    --accent-mint:#3DDC97;
+    --text-primary:#EDEFF7;
+    --text-muted:#8B93A7;
+    --text-faint:#5C6480;
+    --border-subtle:rgba(237,239,247,0.09);
+    --radius-md:14px;
+    --radius-lg:22px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg-deep);
+    color:var(--text-primary);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 28px; }
+
+  ::selection{ background:var(--accent-violet); color:#fff; }
+
+  :focus-visible{
+    outline:2px solid var(--accent-mint);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ---------- Ambient background ---------- */
+  .ambient-glow{
+    position:fixed;
+    top:-20%;
+    left:50%;
+    width:900px;
+    height:900px;
+    background:radial-gradient(circle, var(--accent-violet-soft) 0%, rgba(124,92,252,0) 65%);
+    transform:translateX(-50%);
+    pointer-events:none;
+    z-index:0;
+    animation:driftGlow 22s ease-in-out infinite alternate;
+  }
+  @keyframes driftGlow{
+    0%{ transform:translate(-54%, 0) scale(1); }
+    100%{ transform:translate(-46%, 4%) scale(1.08); }
+  }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(10,14,26,0.72);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border-subtle);
+  }
+  .nav__inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:68px;
+  }
+  .nav__brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:var(--font-mono);
+    font-size:15px;
+    font-weight:500;
+    color:var(--text-primary);
+  }
+  .status-dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--accent-mint);
+    animation:pulseDot 2.2s infinite;
+    flex-shrink:0;
+  }
+  @keyframes pulseDot{
+    0%{ box-shadow:0 0 0 0 rgba(61,220,151,0.55); }
+    70%{ box-shadow:0 0 0 9px rgba(61,220,151,0); }
+    100%{ box-shadow:0 0 0 0 rgba(61,220,151,0); }
+  }
+  .nav__links{
+    display:flex;
+    align-items:center;
+    gap:28px;
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    color:var(--text-muted);
+  }
+  .nav__links a{ transition:color .2s ease; }
+  .nav__links a:hover{ color:var(--accent-mint); }
+  .nav__cta{
+    padding:9px 18px;
+    border-radius:8px;
+    background:var(--accent-violet);
+    color:#fff !important;
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:500;
+    transition:transform .2s ease, box-shadow .2s ease;
+    white-space:nowrap;
+  }
+  .nav__cta:hover{ transform:translateY(-1px); box-shadow:0 8px 20px rgba(124,92,252,0.35); }
+
+  @media (max-width:760px){
+    .nav__links a:not(.nav__cta){ display:none; }
+  }
+
+  /* ---------- Section shells ---------- */
+  section{ position:relative; z-index:1; padding:110px 0; }
+  .section__eyebrow{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--accent-mint);
+    letter-spacing:.02em;
+    margin-bottom:14px;
+  }
+  .section__title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(28px,4vw,42px);
+    letter-spacing:-0.01em;
+    margin-bottom:16px;
+  }
+  .section__lede{
+    color:var(--text-muted);
+    max-width:560px;
+    font-size:16px;
+    margin-bottom:56px;
+  }
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding-top:168px;
+    padding-bottom:96px;
+  }
+  .hero__grid{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero__eyebrow{
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--accent-coral);
+    margin-bottom:22px;
+  }
+  .hero__title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(38px,5.4vw,60px);
+    line-height:1.05;
+    letter-spacing:-0.015em;
+    margin-bottom:22px;
+  }
+  .hero__title span{ color:var(--accent-violet); }
+  .hero__sub{
+    font-size:17.5px;
+    color:var(--text-muted);
+    max-width:480px;
+    margin-bottom:34px;
+  }
+  .hero__actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:13px 24px;
+    border-radius:9px;
+    font-size:14.5px;
+    font-weight:600;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn--primary{
+    background:var(--accent-violet);
+    color:#fff;
+  }
+  .btn--primary:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(124,92,252,0.4); }
+  .btn--ghost{
+    border:1px solid var(--border-subtle);
+    color:var(--text-primary);
+  }
+  .btn--ghost:hover{ border-color:var(--accent-mint); color:var(--accent-mint); transform:translateY(-2px); }
+
+  .hero__social{
+    display:flex;
+    gap:10px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+  }
+  .pill-link{
+    padding:7px 13px;
+    border-radius:20px;
+    border:1px solid var(--border-subtle);
+    color:var(--text-muted);
+    transition:all .2s ease;
+  }
+  .pill-link:hover{ color:var(--accent-mint); border-color:var(--accent-mint); }
+
+  /* Terminal */
+  .terminal{
+    background:var(--bg-surface);
+    border:1px solid var(--border-subtle);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+  }
+  .terminal__bar{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:13px 16px;
+    background:var(--bg-surface-2);
+    border-bottom:1px solid var(--border-subtle);
+  }
+  .terminal__dot{ width:10px; height:10px; border-radius:50%; }
+  .terminal__dot--r{ background:#FF6159; }
+  .terminal__dot--y{ background:#FFBD2E; }
+  .terminal__dot--g{ background:#28C840; }
+  .terminal__label{
+    margin-left:8px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+  }
+  .terminal__body{
+    padding:22px 20px;
+    min-height:230px;
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--text-muted);
+  }
+  .terminal__body .line{ margin-bottom:9px; white-space:pre-wrap; word-break:break-word; }
+  .terminal__body .line.cmd{ color:var(--text-primary); }
+  .terminal__body .line.out{ color:var(--accent-mint); }
+  .cursor{
+    display:inline-block;
+    width:8px; height:15px;
+    background:var(--accent-mint);
+    margin-left:2px;
+    vertical-align:middle;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ---------- Architecture (signature element) ---------- */
+  .arch-visual{
+    position:relative;
+    height:480px;
+    margin-bottom:28px;
+  }
+  .arch-visual svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .arch-line{
+    fill:none;
+    stroke:url(#lineGrad);
+    stroke-width:0.5;
+    stroke-dasharray:3 2.5;
+    animation:flowLine 2.4s linear infinite;
+  }
+  @keyframes flowLine{ to{ stroke-dashoffset:-11; } }
+
+  .node{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    text-align:center;
+    background:none;
+    padding:6px;
+  }
+  .node__dot{
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--bg-surface);
+    border:2px solid var(--accent-violet);
+    transition:all .25s ease;
+  }
+  .node__label{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--text-muted);
+    max-width:120px;
+    transition:color .25s ease;
+  }
+  .node:hover .node__dot, .node:focus-visible .node__dot{
+    background:var(--accent-violet);
+    box-shadow:0 0 0 6px rgba(124,92,252,0.2);
+    transform:scale(1.15);
+  }
+  .node:hover .node__label, .node:focus-visible .node__label{ color:var(--text-primary); }
+
+  .node--hub .node__dot{
+    width:26px; height:26px;
+    border-color:var(--accent-coral);
+    background:var(--accent-coral);
+  }
+  .node--hub .node__label{ color:var(--text-primary); font-weight:500; font-size:13.5px; }
+
+  .arch-detail{
+    border:1px solid var(--border-subtle);
+    border-radius:var(--radius-md);
+    padding:20px 24px;
+    background:var(--bg-surface);
+    font-size:14.5px;
+    color:var(--text-muted);
+    min-height:64px;
+    display:flex;
+    align-items:center;
+  }
+  .arch-detail strong{ color:var(--text-primary); margin-right:8px; }
+
+  .arch-mobile{ display:none; }
+
+  @media (max-width:900px){
+    .arch-visual{ display:none; }
+    .arch-mobile{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-bottom:28px;
+    }
+    .arch-mobile__hub{
+      background:var(--bg-surface);
+      border:1px solid var(--accent-coral);
+      border-radius:var(--radius-md);
+      padding:18px 20px;
+    }
+    .arch-mobile__grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .arch-card{
+      background:var(--bg-surface);
+      border:1px solid var(--border-subtle);
+      border-radius:var(--radius-md);
+      padding:16px;
+    }
+    .arch-card__top{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+    .arch-card h4{ font-family:var(--font-mono); font-size:13.5px; font-weight:500; }
+    .arch-card p{ font-size:12.5px; color:var(--text-muted); }
+  }
+
+  /* ---------- Now (status board) ---------- */
+  .status-board{
+    border:1px solid var(--border-subtle);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    background:var(--bg-surface);
+  }
+  .status-board__head{
+    display:grid;
+    grid-template-columns:220px 1fr 130px;
+    gap:18px;
+    padding:14px 24px;
+    background:var(--bg-surface-2);
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--text-faint);
+  }
+  .status-row{
+    display:grid;
+    grid-template-columns:220px 1fr 130px;
+    gap:18px;
+    align-items:center;
+    padding:20px 24px;
+    border-bottom:1px solid var(--border-subtle);
+  }
+  .status-row:last-child{ border-bottom:none; }
+  .status-row__name-wrap{ display:flex; align-items:center; gap:10px; }
+  .status-row__dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .status-row__dot.running{ background:var(--accent-mint); animation:pulseDot 2.2s infinite; }
+  .status-row__dot.paused{ background:var(--text-faint); }
+  .status-row__name{
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--text-primary);
+  }
+  .status-row__desc{ color:var(--text-muted); font-size:14px; }
+  .status-row__meta{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    text-align:right;
+    white-space:nowrap;
+  }
+  .status-row__meta.is-new{ color:var(--accent-coral); }
+
+  @media (max-width:760px){
+    .status-board__head{ display:none; }
+    .status-row{
+      grid-template-columns:1fr;
+      gap:8px;
+      padding:18px 20px;
+    }
+    .status-row__meta{ text-align:left; }
+  }
+
+  /* ---------- Projects ---------- */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:22px;
+  }
+  .project-card{
+    background:var(--bg-surface);
+    border:1px solid var(--border-subtle);
+    border-radius:var(--radius-lg);
+    padding:26px;
+    display:flex;
+    flex-direction:column;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .project-card:hover{ transform:translateY(-5px); border-color:rgba(124,92,252,0.4); }
+  .project-card__status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--accent-mint);
+    margin-bottom:14px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+  .project-card__status.wip{ color:var(--accent-coral); }
+  .project-card__status .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .project-card h3{
+    font-family:var(--font-display);
+    font-size:19px;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .project-card p{
+    color:var(--text-muted);
+    font-size:14.5px;
+    margin-bottom:18px;
+    flex-grow:1;
+  }
+  .stack-row{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px; }
+  .stack-tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:6px;
+    background:var(--bg-surface-2);
+    color:var(--text-muted);
+  }
+  .project-card__links{ display:flex; gap:16px; font-family:var(--font-mono); font-size:13px; }
+  .project-card__links a{ color:var(--accent-violet); transition:color .2s ease; }
+  .project-card__links a:hover{ color:var(--accent-mint); }
+
+  .project-card--empty{
+    border:1px dashed var(--border-subtle);
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:var(--text-faint);
+    gap:10px;
+  }
+  .project-card--empty .plus{
+    font-size:26px;
+    color:var(--accent-violet);
+  }
+
+  /* ---------- Log / changelog ---------- */
+  .log-list{ border-top:1px solid var(--border-subtle); }
+  .log-entry{
+    display:grid;
+    grid-template-columns:100px 90px 1fr;
+    gap:20px;
+    padding:22px 0;
+    border-bottom:1px solid var(--border-subtle);
+    align-items:baseline;
+  }
+  .log-entry__version{
+    font-family:var(--font-mono);
+    color:var(--accent-violet);
+    font-size:14px;
+    font-weight:500;
+  }
+  .log-entry__hash{
+    font-family:var(--font-mono);
+    color:var(--text-faint);
+    font-size:12.5px;
+  }
+  .log-entry__desc{ font-size:15px; color:var(--text-muted); }
+
+  @media (max-width:640px){
+    .log-entry{ grid-template-columns:1fr; gap:6px; }
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-box{
+    background:var(--bg-surface);
+    border:1px solid var(--border-subtle);
+    border-radius:var(--radius-lg);
+    padding:48px;
+  }
+  .contact-box__title{
+    font-family:var(--font-mono);
+    font-size:15px;
+    color:var(--accent-mint);
+    margin-bottom:10px;
+  }
+  .contact-box__heading{
+    font-family:var(--font-display);
+    font-size:clamp(24px,3.4vw,34px);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  .contact-box__sub{ color:var(--text-muted); max-width:460px; margin-bottom:32px; }
+  .endpoints{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:14px;
+  }
+  .endpoint{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 20px;
+    border-radius:10px;
+    border:1px solid var(--border-subtle);
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    transition:all .2s ease;
+  }
+  .endpoint:hover{ border-color:var(--accent-violet); background:var(--bg-surface-2); }
+  .endpoint__method{ color:var(--accent-coral); margin-right:8px; }
+  .endpoint__arrow{ color:var(--text-faint); }
+
+  footer{
+    padding:40px 0 60px;
+    text-align:center;
+    color:var(--text-faint);
+    font-family:var(--font-mono);
+    font-size:12.5px;
+  }
+  footer .status-dot{ display:inline-block; margin:0 6px; }
+
+  @media (max-width:900px){
+    .hero__grid{ grid-template-columns:1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient-glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="wrap nav__inner">
+    <div class="nav__brand"><span class="status-dot"></span> sarath.dev</div>
+    <div class="nav__links">
+      <a href="#architecture">/architecture</a>
+      <a href="#now">/now</a>
+      <a href="#projects">/projects</a>
+      <a href="#log">/log</a>
+      <a href="#contact" class="nav__cta">/contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="wrap hero__grid">
+    <div>
+      <div class="hero__eyebrow reveal">// backend engineer — distributed systems</div>
+      <h1 class="hero__title reveal">Sarath builds systems<br>that don't <span>fall over</span>.</h1>
+      <p class="hero__sub reveal">I work on backend and distributed systems — event-driven services with Kafka, containerized environments with Docker, and the reliability details that keep production calm.</p>
+      <div class="hero__actions reveal">
+        <a href="#projects" class="btn btn--primary">View Projects</a>
+        <!-- TODO: point this at your actual resume file -->
+        <a href="resume.pdf" class="btn btn--ghost">Download Resume</a>
+      </div>
+      <div class="hero__social reveal">
+        <!-- TODO: replace with your real profile links -->
+        <a href="https://github.com/yourusername" class="pill-link">GitHub</a>
+        <a href="https://linkedin.com/in/yourusername" class="pill-link">LinkedIn</a>
+        <a href="mailto:you@example.com" class="pill-link">Email</a>
+      </div>
+    </div>
+
+    <div class="terminal reveal">
+      <div class="terminal__bar">
+        <span class="terminal__dot terminal__dot--r"></span>
+        <span class="terminal__dot terminal__dot--y"></span>
+        <span class="terminal__dot terminal__dot--g"></span>
+        <span class="terminal__label">sarath — zsh</span>
+      </div>
+      <div class="terminal__body" id="terminalBody" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ARCHITECTURE (signature section) ================= -->
+<section id="architecture">
+  <div class="wrap">
+    <div class="section__eyebrow reveal">// system architecture</div>
+    <h2 class="section__title reveal">How I'm built.</h2>
+    <p class="section__lede reveal">Every backend engineer is really a small system. Here's the current one — hover a node to see what it does.</p>
+
+    <div class="arch-visual reveal">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#7C5CFC"/>
+            <stop offset="100%" stop-color="#3DDC97"/>
+          </linearGradient>
+        </defs>
+        <path class="arch-line" d="M50,50 L50,6"></path>
+        <path class="arch-line" d="M50,50 L86,22" style="animation-delay:-0.4s"></path>
+        <path class="arch-line" d="M50,50 L78,74" style="animation-delay:-0.8s"></path>
+        <path class="arch-line" d="M50,50 L20,78" style="animation-delay:-1.2s"></path>
+        <path class="arch-line" d="M50,50 L12,20" style="animation-delay:-1.6s"></path>
+      </svg>
+
+      <button class="node node--hub" style="top:50%; left:50%;"
+        data-detail="Sarath — the core. Everything else here talks to this node.">
+        <span class="node__dot"></span>
+        <span class="node__label">Sarath</span>
+      </button>
+
+      <button class="node" style="top:6%; left:50%;"
+        data-detail="Java &amp; Spring Boot — REST APIs, dependency injection, JPA, and test-driven service design.">
+        <span class="node__dot"></span>
+        <span class="node__label">Java &amp; Spring Boot</span>
+      </button>
+
+      <button class="node" style="top:22%; left:86%;"
+        data-detail="Apache Kafka — producers, consumers, topics, partitions, and consumer group internals.">
+        <span class="node__dot"></span>
+        <span class="node__label">Apache Kafka</span>
+      </button>
+
+      <button class="node" style="top:74%; left:78%;"
+        data-detail="Docker — images vs. containers, custom networks, volumes, and multi-service Compose setups.">
+        <span class="node__dot"></span>
+        <span class="node__label">Docker</span>
+      </button>
+
+      <button class="node" style="top:78%; left:20%;"
+        data-detail="SQL &amp; data modeling — schema design, indexing, and query performance.">
+        <span class="node__dot"></span>
+        <span class="node__label">SQL &amp; Data</span>
+      </button>
+
+      <button class="node" style="top:20%; left:12%;"
+        data-detail="System design — scalability, fault tolerance, and the trade-offs behind distributed systems.">
+        <span class="node__dot"></span>
+        <span class="node__label">System Design</span>
+      </button>
+    </div>
+
+    <div class="arch-mobile reveal">
+      <div class="arch-mobile__hub">
+        <h4 style="font-family:var(--font-mono); color:var(--accent-coral); margin-bottom:6px;">● Sarath — core</h4>
+        <p style="color:var(--text-muted); font-size:13px;">The core service. Everything below talks to this one.</p>
+      </div>
+      <div class="arch-mobile__grid">
+        <div class="arch-card"><div class="arch-card__top">●</div><h4>Java &amp; Spring Boot</h4><p>REST APIs, JPA, testing</p></div>
+        <div class="arch-card"><div class="arch-card__top">●</div><h4>Apache Kafka</h4><p>Producers, consumers, streams</p></div>
+        <div class="arch-card"><div class="arch-card__top">●</div><h4>Docker</h4><p>Images, volumes, compose</p></div>
+        <div class="arch-card"><div class="arch-card__top">●</div><h4>SQL &amp; Data</h4><p>Modeling, indexing, queries</p></div>
+        <div class="arch-card" style="grid-column:span 2;"><div class="arch-card__top">●</div><h4>System Design</h4><p>Scalability &amp; fault tolerance</p></div>
+      </div>
+    </div>
+
+    <div class="arch-detail reveal" id="archDetail">
+      <span><strong>Sarath</strong> — the core. Hover a node above to see what it does.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOW ================= -->
+<section id="now">
+  <div class="wrap">
+    <div class="section__eyebrow reveal">// currently running</div>
+    <h2 class="section__title reveal">What's running right now</h2>
+    <p class="section__lede reveal">A quick status check on what's actively being trained — think of it as <code style="font-family:var(--font-mono); color:var(--text-primary);">docker ps</code> for my learning.</p>
+
+    <div class="status-board reveal">
+      <div class="status-board__head">
+        <div>container</div>
+        <div>task</div>
+        <div>since</div>
+      </div>
+
+      <div class="status-row">
+        <div class="status-row__name-wrap">
+          <span class="status-row__dot running"></span>
+          <span class="status-row__name">docker-fundamentals</span>
+        </div>
+        <div class="status-row__desc">Core concepts → CLI → Dockerfile → networking → volumes → Compose → debugging → image internals.</div>
+        <div class="status-row__meta">up · in progress</div>
+      </div>
+
+      <div class="status-row">
+        <div class="status-row__name-wrap">
+          <span class="status-row__dot running"></span>
+          <span class="status-row__name">genai-upskilling</span>
+        </div>
+        <!-- TODO: tighten this up with the specific GenAI tools/topics you're actually studying -->
+        <div class="status-row__desc">Applied GenAI — LLM APIs, prompt design, and building AI-assisted features into backend services.</div>
+        <div class="status-row__meta is-new">up · just started</div>
+      </div>
+
+      <div class="status-row">
+        <div class="status-row__name-wrap">
+          <span class="status-row__dot paused"></span>
+          <span class="status-row__name">kafka-deep-dive</span>
+        </div>
+        <div class="status-row__desc">Producer/consumer internals and interview prep — resuming once Docker fundamentals wrap up.</div>
+        <div class="status-row__meta">paused</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section__eyebrow reveal">// deployed</div>
+    <h2 class="section__title reveal">Projects</h2>
+    <p class="section__lede reveal">Things I've built to actually understand how these systems behave — not just read about them.</p>
+
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-card__status"><span class="dot"></span> shipped</div>
+        <h3>Event-Driven Order Pipeline</h3>
+        <p>A Spring Boot service that produces and consumes order events through Kafka topics, backed by a Dockerized broker. Includes a full producer / consumer / config setup and an EmbeddedKafka integration test suite.</p>
+        <div class="stack-row">
+          <span class="stack-tag">Java</span>
+          <span class="stack-tag">Spring Boot</span>
+          <span class="stack-tag">Apache Kafka</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Maven</span>
+        </div>
+        <!-- TODO: point these at your real repo / writeup -->
+        <div class="project-card__links">
+          <a href="https://github.com/yourusername/order-pipeline">View Code →</a>
+          <a href="#">Read Notes →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__status wip"><span class="dot"></span> in progress</div>
+        <h3>Containerized Dev Playbook</h3>
+        <p>A hands-on walkthrough of Docker fundamentals — images vs. containers, custom networks, persistent volumes, and multi-service Compose setups — documented while building toward a full containerized dev environment.</p>
+        <div class="stack-row">
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Docker Compose</span>
+          <span class="stack-tag">Networking</span>
+        </div>
+        <div class="project-card__links">
+          <a href="https://github.com/yourusername/docker-playbook">View Code →</a>
+          <a href="#">Read Notes →</a>
+        </div>
+      </div>
+
+      <div class="project-card project-card--empty reveal">
+        <div class="plus">+</div>
+        <h3 style="font-size:16px; color:var(--text-muted);">This slot's open</h3>
+        <p style="margin:0;">Ship something, then drop it here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOG ================= -->
+<section id="log">
+  <div class="wrap">
+    <div class="section__eyebrow reveal">// changelog</div>
+    <h2 class="section__title reveal">Build log</h2>
+    <p class="section__lede reveal">A running log of what's actually been built and learned, in order.</p>
+
+    <div class="log-list reveal">
+      <div class="log-entry">
+        <div class="log-entry__version">v0.4.0</div>
+        <div class="log-entry__hash">#3f9a2c</div>
+        <div class="log-entry__desc">Working through Docker fundamentals — CLI, networking, volumes, Compose, and image internals.</div>
+      </div>
+      <div class="log-entry">
+        <div class="log-entry__version">v0.3.0</div>
+        <div class="log-entry__hash">#b81d40</div>
+        <div class="log-entry__desc">Shipped a full Spring Boot + Kafka project — producers, consumers, config, and an EmbeddedKafka test suite.</div>
+      </div>
+      <div class="log-entry">
+        <div class="log-entry__version">v0.2.0</div>
+        <div class="log-entry__hash">#7c02e5</div>
+        <div class="log-entry__desc">Went deep on Kafka internals — partitions, consumer groups, offsets, and replication.</div>
+      </div>
+      <div class="log-entry">
+        <div class="log-entry__version">v0.1.0</div>
+        <div class="log-entry__hash">#1a44f9</div>
+        <div class="log-entry__desc">Started a structured prep track for backend and distributed systems interviews.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box reveal">
+      <div class="contact-box__title">// get in touch</div>
+      <h2 class="contact-box__heading">POST /contact</h2>
+      <p class="contact-box__sub">Recruiters, hiring managers, fellow engineers — happy to talk. Fastest way to reach me is below.</p>
+      <div class="endpoints">
+        <!-- TODO: replace hrefs with your real links -->
+        <a href="mailto:you@example.com" class="endpoint"><span><span class="endpoint__method">POST</span>/email</span><span class="endpoint__arrow">↗</span></a>
+        <a href="resume.pdf" class="endpoint"><span><span class="endpoint__method">GET</span>/resume</span><span class="endpoint__arrow">↗</span></a>
+        <a href="https://github.com/yourusername" class="endpoint"><span><span class="endpoint__method">GET</span>/github</span><span class="endpoint__arrow">↗</span></a>
+        <a href="https://linkedin.com/in/yourusername" class="endpoint"><span><span class="endpoint__method">GET</span>/linkedin</span><span class="endpoint__arrow">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Sarath <span class="status-dot"></span> status: open to opportunities
+</footer>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Scroll reveal ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---- Terminal typewriter ---- */
+  var lines = [
+    { type:'cmd', text:'$ whoami' },
+    { type:'out', text:'> Sarath — backend engineer, distributed systems' },
+    { type:'cmd', text:'$ cat current_focus.txt' },
+    { type:'out', text:'> Apache Kafka · Spring Boot · Docker · System Design' },
+    { type:'cmd', text:'$ status --check' },
+    { type:'out', text:'> open to opportunities ●' }
+  ];
+  var body = document.getElementById('terminalBody');
+
+  if(reduceMotion){
+    lines.forEach(function(l){
+      var div = document.createElement('div');
+      div.className = 'line ' + l.type;
+      div.textContent = l.text;
+      body.appendChild(div);
+    });
+  } else {
+    var lineIndex = 0, charIndex = 0;
+    var maxLines = 5;
+    var current = null;
+
+    function typeStep(){
+      if(!current){
+        current = document.createElement('div');
+        current.className = 'line ' + lines[lineIndex].type;
+        var cursor = document.createElement('span');
+        cursor.className = 'cursor';
+        current.appendChild(document.createTextNode(''));
+        current.appendChild(cursor);
+        body.appendChild(current);
+        while(body.children.length > maxLines){
+          body.removeChild(body.firstChild);
+        }
+      }
+      var fullText = lines[lineIndex].text;
+      charIndex++;
+      current.childNodes[0].textContent = fullText.slice(0, charIndex);
+
+      if(charIndex < fullText.length){
+        setTimeout(typeStep, 28);
+      } else {
+        current.removeChild(current.childNodes[1]); // remove cursor
+        current = null;
+        charIndex = 0;
+        lineIndex = (lineIndex + 1) % lines.length;
+        setTimeout(typeStep, 950);
+      }
+    }
+    typeStep();
+  }
+
+  /* ---- Architecture node detail ---- */
+  var detail = document.getElementById('archDetail').querySelector('span');
+  document.querySelectorAll('.node').forEach(function(node){
+    node.addEventListener('mouseenter', function(){
+      detail.innerHTML = node.getAttribute('data-detail');
+    });
+    node.addEventListener('focus', function(){
+      detail.innerHTML = node.getAttribute('data-detail');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
